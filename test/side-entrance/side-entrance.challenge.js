@@ -30,7 +30,7 @@ describe('[Challenge] Side entrance', function () {
         //inside execute function deposit the eth so flashloan rule can be satisfied
         //(pool initial balance wont change)
         //after flashloan call just invoke sendEther function to send eth to player...
-        const Attack=await hre.ethers.getContractFactory("Attack");
+        const Attack=await hre.ethers.getContractFactory("AttackSideEntrance");
         const attack=await Attack.deploy(pool.address);
         await attack.deployed();
         console.log("Attack contract deployed to:",attack.address)

@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 
 import "solady/src/utils/SafeTransferLib.sol";
 import{SideEntranceLenderPool} from "./SideEntranceLenderPool.sol";
-contract Attack{
+contract AttackSideEntrance{
 
 address public attacker=0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
 uint256 public constant POOL_BALANCE= 1000 ether;
