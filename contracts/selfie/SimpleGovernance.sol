@@ -8,6 +8,8 @@ import "./ISimpleGovernance.sol"
  * @title SimpleGovernance
  * @author Damn Vulnerable DeFi (https://damnvulnerabledefi.xyz)
  */
+import "hardhat/console.sol";
+
 contract SimpleGovernance is ISimpleGovernance {
 
     uint256 private constant ACTION_DELAY_IN_SECONDS = 2 days;
@@ -23,7 +25,8 @@ contract SimpleGovernance is ISimpleGovernance {
     function queueAction(address target, uint128 value, bytes calldata data) external returns (uint256 actionId) {
         if (!_hasEnoughVotes(msg.sender))
             revert NotEnoughVotes(msg.sender);
-
+        console.log("target:",target);
+        console.log("Address(this)",address(this));
         if (target == address(this))
             revert InvalidTarget();
         
@@ -105,7 +108,9 @@ contract SimpleGovernance is ISimpleGovernance {
 
     function _hasEnoughVotes(address who) private view returns (bool) {
         uint256 balance = _governanceToken.getBalanceAtLastSnapshot(who);
+        console.log("balance:",balance);
         uint256 halfTotalSupply = _governanceToken.getTotalSupplyAtLastSnapshot() / 2;
+        console.log("halfTotalSupply:",halfTotalSupply);
         return balance > halfTotalSupply;
     }
 }
